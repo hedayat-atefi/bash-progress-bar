@@ -30,7 +30,7 @@ A simple Bash script to display a progress bar while processing files. This scri
 
 ## Example Output
 
-```
+```bash
 finding files
 find 36 files
 [||||||||||||||||||||||||||||||||||||||||||||||||||] 36/36 (100%)
@@ -46,5 +46,3 @@ foo/
 ```
 
 ## License
-
-MIT
