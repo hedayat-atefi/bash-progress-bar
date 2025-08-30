@@ -38,7 +38,7 @@ find 36 files
 
 ## Project Structure
 
-```
+```bash
 progress-bar         # Main script
 bar/                 # Example directory containing cache files
 baz/
