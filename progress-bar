@@ -1,52 +1,52 @@
 #!/bin/bash
 
-progress-bar() {
+# Draw a progress bar in the terminal
+progress_bar() {
   local current=$1
-  local len=$2
-
+  local total=$2
   local bar_char='|'
   local empty_char=' '
   local length=50
 
-  local perc_done=$((current * 100 /len))
+  if (( total == 0 )); then
+    echo -ne "[${empty_char// /$empty_char}$empty_char] 0/0 (0%)\r"
+    return
+  fi
+
+  local perc_done=$((current * 100 / total))
   local num_bars=$((perc_done * length / 100))
-
-  # echo "proccessing $current/$len ($perc_done%)"
-
   local i
-  local s='['
+  local bar='['
+
   for ((i = 0; i < num_bars; i++)); do
-        s+=$bar_char
+    bar+=$bar_char
   done
   for ((i = num_bars; i < length; i++)); do
-        s+=$empty_char
+    bar+=$empty_char
   done
-  s+=']'
+  bar+=']'
 
-  echo -ne "$s $current/$len ($perc_done%)\r"
+  printf "\r%s %d/%d (%d%%)" "$bar" "$current" "$total" "$perc_done"
 }
 
-
-proccess-file() {
-  local file=$1
-
+# Simulate processing a file (replace with actual logic)
+process_file() {
+  local file="$1"
+  # Example: simulate work
   sleep 0.1
 }
 
-echo 'finding files'
+echo 'Finding files...'
 
-files=(./**/*cache)
+# Find files matching *cache recursively
+mapfile -d $'\0' files < <(find . -type f -name '*cache' -print0)
 len=${#files[@]}
 
-echo "find $len files"
+echo "Found $len files"
 
-i=0
-
-for file in "${files[@]}"; do
-  progress-bar "$((i+1))" "$len"
-  proccess-file = "$file"
-  # echo "$file"
-  ((i++))
+for ((i = 0; i < len; i++)); do
+  progress_bar $((i + 1)) "$len"
+  process_file "${files[i]}"
 done
 
 echo
